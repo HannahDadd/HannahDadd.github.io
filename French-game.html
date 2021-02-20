@@ -1,0 +1,117 @@
+<script>
+
+//this creates a list of questions
+var answers = ["plut&#244;t que", "&#199;a va se passer", "soucis", "le pire des ces", "depuis un", "plein temps", "pareil"];
+var questions = ["rather than", "it's going to happen", "worries", "The worst Case", "for a while", "full time", "same"];
+
+var lives = 5;
+
+function getRndInteger(min, max) {
+  return Math.floor(Math.random() * (max - min) ) + min;
+}
+
+var start = function() {
+    document.getElementById("myDiv3").innerHTML ='';
+    document.getElementById("lives").innerHTML = lives;
+    listQuestion()
+}
+
+var listQuestion = function(){ 
+    document.getElementById("lives").innerHTML = lives;
+    document.getElementById("myDiv2").innerHTML ='';
+    let questionNo = getRndInteger(0, questions.length)
+    document.getElementById("myDiv1").innerHTML = '<h1>'+ questions[questionNo]+'</h1>';
+    var options = shuffle([answers[getRndInteger(0, questions.length)],
+        answers[getRndInteger(0, questions.length)],
+        answers[questionNo]]);
+    for(var index = 0; index < options.length; index++) {
+        document.getElementById("myDiv2").innerHTML +='<button class="button button1" onclick=amITheRightAnswer(' + questionNo + "," + answers.indexOf(options[index]) + ')>' + options[index] + '</button>';
+    }
+};
+
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
+
+var listQustion2 = function () {
+    document.getElementById("lives").innerHTML = lives;
+    document.getElementById("wordAnswer").innerHTML = '';
+    let questionNo = getRndInteger(0, questions.length)
+    document.getElementById("wordQuestion").innerHTML = '<p>' + questions[questionNo] + '</p>';
+    let options = [answers[getRndInteger(0, questions.length)],
+    answers[getRndInteger(0, questions.length)],
+    answers[questionNo]]
+    for (var index = 0; index < options.length; index++) {
+        document.getElementById("wordAnswer").innerHTML += '<button class="button button1" onclick=amITheRightAnswer(' + questionNo + "," + answers.indexOf(options[index]) + ')>' + options[index] + '</button>';
+    }
+};
+
+function amITheRightAnswer(correcAnswer, chosenAnswer) {
+    if (correcAnswer === chosenAnswer) { 
+        lives++; 
+    } else {
+        lives --;
+    }
+    listQuestion()
+}
+</script>
+
+<head>
+<style>
+.button {
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.button1 {background-color: #4CAF50;} /* Green */
+.button2 {background-color: #008CBA;} /* Blue */
+
+body {
+    background-image: url('cartoon-drawing-sky-cloud-clip-art-clouds-cartoon.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed; 
+  background-size: 100% 100%;
+}
+</style>
+</head>
+
+<body>
+    <div align="center">
+        <div id="myDiv1"></div> 
+        <div id="myDiv2"></div>
+        <div id="myDiv3">
+            <button class="button button2" onclick=start()>Start</button>
+        </div>
+        <div>
+            <p>lives:  <a id="lives"></a></p>
+        </div>
+        <div id="wordAnswer">
+            <label for="name">what is <a id="wordQuestion"> in French:</label>
+
+            <input type="text" id="name" required
+                   minlength="4" maxlength="8" size="10">
+        </div>
+    </div>
+</body>
